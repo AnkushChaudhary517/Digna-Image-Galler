@@ -1,0 +1,781 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Typography System - Matching Figma Design */
+:root {
+  /* Font Families */
+  --font-sora: 'Sora', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-work-sans: 'Work Sans', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  
+  /* Heading Styles - Sora */
+  --heading-xl-size: 60px;
+  --heading-xl-line: 60px; /* 100% */
+  --heading-xl-weight: 500;
+  --heading-xl-spacing: 0%;
+  
+  --heading-lg-size: 45px;
+  --heading-lg-line: 54px; /* 120% */
+  --heading-lg-weight: 600;
+  
+  --heading-md-size: 32px;
+  --heading-md-line: 40px; /* 125% */
+  --heading-md-weight: 600;
+  
+  --heading-sm-size: 28px;
+  --heading-sm-line: 35px; /* 125% */
+  --heading-sm-weight: 600;
+  
+  /* Body Text - Work Sans */
+  --body-lg-size: 20px;
+  --body-lg-line: 26px; /* 130% */
+  --body-lg-weight: 400;
+  --body-lg-spacing: 0.01em; /* 1% */
+  
+  --body-md-size: 18px;
+  --body-md-line: 23px; /* ~128% */
+  --body-md-weight: 400;
+  --body-md-spacing: 0.01em;
+  
+  --body-sm-size: 16px;
+  --body-sm-line: 23px; /* ~144% */
+  --body-sm-weight: 400;
+  --body-sm-spacing: 0.01em;
+  
+  --body-xs-size: 14px;
+  --body-xs-line: 20px; /* ~143% */
+  --body-xs-weight: 400;
+  --body-xs-spacing: 0.01em;
+  
+  /* Navigation - Sora */
+  --nav-size: 18px;
+  --nav-line: 100%;
+  --nav-weight: 400;
+  --nav-spacing: 0.01em;
+  
+  /* Button Text - Sora */
+  --button-size: 15px;
+  --button-line: 20px;
+  --button-weight: 500;
+}
+
+/* Base Typography */
+body {
+  font-family: var(--font-work-sans);
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-line);
+  font-weight: var(--body-md-weight);
+  letter-spacing: var(--body-md-spacing);
+  color: #0C1633;
+}
+
+/* Headings - Sora */
+h1, h2, h3, h4, h5, h6,
+.heading-xl, .heading-lg, .heading-md, .heading-sm {
+  font-family: var(--font-sora);
+  font-weight: var(--heading-xl-weight);
+  letter-spacing: var(--heading-xl-spacing);
+  color: #0C1633;
+}
+
+h1, .heading-xl {
+  font-size: clamp(28px, 5vw, var(--heading-xl-size));
+  line-height: clamp(32px, 5.5vw, var(--heading-xl-line));
+  font-weight: var(--heading-xl-weight);
+}
+
+h2, .heading-lg {
+  font-size: clamp(24px, 4vw, var(--heading-lg-size));
+  line-height: clamp(30px, 4.5vw, var(--heading-lg-line));
+  font-weight: var(--heading-lg-weight);
+}
+
+h3, .heading-md {
+  font-size: clamp(20px, 3vw, var(--heading-md-size));
+  line-height: clamp(25px, 3.5vw, var(--heading-md-line));
+  font-weight: var(--heading-md-weight);
+}
+
+h4, .heading-sm {
+  font-size: clamp(18px, 2.5vw, var(--heading-sm-size));
+  line-height: clamp(22px, 3vw, var(--heading-sm-line));
+  font-weight: var(--heading-sm-weight);
+}
+
+/* Body Text - Work Sans */
+p, .body-lg {
+  font-family: var(--font-work-sans);
+  font-size: clamp(14px, 1.6vw, var(--body-lg-size));
+  line-height: clamp(18px, 2vw, var(--body-lg-line));
+  font-weight: var(--body-lg-weight);
+  letter-spacing: var(--body-lg-spacing);
+}
+
+.body-md {
+  font-family: var(--font-work-sans);
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-line);
+  font-weight: var(--body-md-weight);
+  letter-spacing: var(--body-md-spacing);
+}
+
+.body-sm {
+  font-family: var(--font-work-sans);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  font-weight: var(--body-sm-weight);
+  letter-spacing: var(--body-sm-spacing);
+}
+
+.body-xs {
+  font-family: var(--font-work-sans);
+  font-size: var(--body-xs-size);
+  line-height: var(--body-xs-line);
+  font-weight: var(--body-xs-weight);
+  letter-spacing: var(--body-xs-spacing);
+}
+
+/* Navigation Links - Sora */
+nav a, .nav-link, .header-link {
+  font-family: var(--font-sora);
+  font-size: var(--nav-size);
+  line-height: var(--nav-line);
+  font-weight: var(--nav-weight);
+  letter-spacing: var(--nav-spacing);
+}
+
+/* Buttons - Sora - Figma Design */
+button:not([class*="rounded-full"]):not([class*="rounded-none"]),
+.btn,
+.button {
+  font-family: var(--font-sora) !important;
+  font-size: var(--button-size) !important;
+  line-height: var(--button-line) !important;
+  font-weight: var(--button-weight) !important;
+  border-radius: 12px !important; /* Figma: 12px border radius - NO square buttons */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Primary buttons - Figma color #2B21DA */
+button[type="submit"]:not([style*="background"]),
+button.bg-primary:not([style*="background"]),
+.btn-primary:not([style*="background"]),
+.signup-button:not([style*="background"]),
+button[class*="bg-primary"]:not([style*="background"]) {
+  background-color: #2B21DA !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+button[type="submit"]:hover:not([style*="background"]),
+button.bg-primary:hover:not([style*="background"]),
+.btn-primary:hover:not([style*="background"]),
+.signup-button:hover:not([style*="background"]),
+button[class*="bg-primary"]:hover:not([style*="background"]) {
+  background-color: #2319b5 !important;
+}
+
+/* Ensure no square buttons - override any rounded-md, rounded-sm, etc. */
+button:not([class*="rounded-full"]):not([class*="rounded-none"]):not([class*="rounded-xl"]):not([class*="rounded-lg"]) {
+  border-radius: 12px !important;
+}
+
+/* Login button in header - fixed size */
+button[aria-label="Login"] {
+  height: 40px !important;
+  min-width: 88px !important;
+  max-width: 120px !important;
+  padding: 8px 20px !important;
+  font-size: 15px !important;
+  line-height: 20px !important;
+  font-weight: 500 !important;
+}
+
+/* Logo Text - Sora */
+.logo-text {
+  font-family: var(--font-sora);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  color: #2b21da;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .logo-text {
+    font-size: 28px;
+    line-height: 35px;
+  }
+}
+
+@media (max-width: 767px) {
+  .logo-text {
+    font-size: 18px;
+  }
+}
+
+/* ===== Navigation ===== */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+  justify-content: center;
+  width: auto;
+  height: 23px;
+  padding: 0 8px;
+}
+
+.nav-item {
+  font-family: var(--font-sora);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  letter-spacing: 0.01em;
+  color: #0c1633;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  font-weight: 600;
+  color: #2b21da;
+}
+
+.nav-divider {
+  width: 16px;
+  border: 1px solid #dbdbdb;
+  transform: rotate(100deg);
+  height: 1px;
+}
+
+/* ===== Sign Up Button ===== */
+.signup-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 20px;
+  gap: 10px;
+  min-width: 88px;
+  height: 40px;
+  background: #2b21da;
+  border-radius: 12px;
+  color: #ffffff;
+  font-family: var(--font-sora);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border: none;
+}
+
+.signup-button:hover {
+  background: #2319b5;
+}
+
+/* ===== Header links typography (applies to all header links) */
+.header-link {
+  /* Typography */
+  font-family: var(--font-sora);
+  font-weight: 400;
+  font-style: normal; /* Regular */
+  font-size: 18px;
+  line-height: 100%; /* as requested */
+  letter-spacing: 0.01em; /* ~1% */
+  vertical-align: middle;
+  white-space: nowrap;
+
+  /* Color & layout */
+  color: #0C1633;
+  width: 75px;
+  height: 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* other requested properties */
+  opacity: 1;
+  transform: none; /* angle: 0deg */
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* keep hover color stable */
+.header-link:hover,
+.header-link:focus {
+  color: #0C1633;
+  text-decoration: none;
+  outline: none;
+}
+
+/* ===== Responsive ===== */
+@media (min-width: 768px) {
+  .nav-item {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 8px 12px;
+    border-radius: 12px;
+  }
+
+  .nav {
+    display: none; /* hide nav on small screens; replace with hamburger if needed */
+  }
+
+  .signup-button {
+    padding: 6px 12px;
+    min-width: 64px;
+    font-size: 14px;
+  }
+}
+
+.wavy-band {
+  position: relative;
+  width: 100%;
+  height: 250px; /* adjust thickness */
+  overflow: hidden;
+  background: black; /* just for contrast, remove if not needed */
+}
+
+.wave-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.blur-card {
+  backdrop-filter: blur(8px);
+  box-shadow: 0px 4px 10px 0px #0000001F;
+}
+
+/* Mobile-friendly overrides and helpers
+   - Non-functional: only CSS changes, no JS or logic touched
+   - Adds improved spacing, tap targets, responsive dialogs, grids and form controls
+*/
+
+/* Basic touch / accessibility improvements */
+html, body {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Responsive images and media */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Full-width forms and interactive elements on narrow screens */
+@media (max-width: 640px) {
+  form, .form-container {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select {
+    width: 100%;
+    font-size: 16px; /* prevents zoom on iOS */
+    padding: 12px;
+    box-sizing: border-box;
+  }
+}
+
+/* Touch target size */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Full-width buttons on mobile */
+@media (max-width: 640px) {
+  .btn-responsive-full {
+    width: 100%;
+    display: block;
+  }
+}
+
+/* Container padding adjustments for small screens */
+@media (max-width: 640px) {
+  .container, .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Upload / dropzone adjustments for generous hit areas */
+@media (max-width: 640px) {
+  [role="button"],
+  .dropzone,
+  .upload-area {
+    min-height: 120px;
+    padding: 24px;
+  }
+}
+
+/* Grid -> Stack on small screens */
+@media (max-width: 640px) {
+  .grid, .grid-cols-1, .grid-cols-2, .grid-cols-3, .grid-cols-4 {
+    grid-template-columns: 1fr !important;
+  }
+  .flex-row-on-desktop {
+    flex-direction: column !important;
+  }
+  .hidden-sm {
+    display: none !important;
+  }
+  .show-sm {
+    display: block !important;
+  }
+}
+
+/* Cards and list items */
+.card, .panel, .rounded-xl, .rounded-lg {
+  overflow: hidden;
+}
+.card img, .panel img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Dialog / modal responsiveness */
+/* Target common patterns used in project (role="dialog", modal containers) */
+[role="dialog"], .modal, .dialog {
+  max-width: 960px;
+  margin: 24px auto;
+}
+/* Exclude Radix UI Dialog from full-screen mobile rules */
+.radix-dialog-content {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 95vw !important;
+  max-height: 95vh !important;
+  margin: 0 !important;
+  border-radius: 12px !important;
+  pointer-events: auto !important;
+  z-index: 10001 !important;
+}
+.radix-dialog-content * {
+  pointer-events: auto !important;
+}
+@media (max-width: 640px) {
+  [role="dialog"]:not(.radix-dialog-content), .modal:not(.radix-dialog-content), .dialog:not(.radix-dialog-content) {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    padding: 12px !important;
+    box-sizing: border-box;
+  }
+  [role="dialog"]:not(.radix-dialog-content) > * {
+    max-height: 100vh;
+    overflow: auto;
+  }
+  /* Ensure Radix UI Dialog stays centered on mobile */
+  .radix-dialog-content {
+    max-width: 90vw !important;
+    padding: 16px !important;
+  }
+}
+
+/* Tabs and triggers */
+[data-radix-tabs-trigger] {
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  [data-radix-tabs-trigger] {
+    min-width: auto !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    height: 44px !important;
+    font-size: 15px !important;
+  }
+  /* selected style should not force large width on mobile */
+  [data-radix-tabs-trigger][data-state="active"] {
+    width: auto !important;
+    border-radius: 10px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+/* Increase legibility of small text on mobile */
+@media (max-width: 480px) {
+  .text-sm { font-size: 0.95rem !important; }
+  .text-xs { font-size: 0.82rem !important; }
+}
+
+/* Footer and header spacing */
+header, .site-header {
+  /* preserve desktop look but allow compact on mobile */
+@media (max-width: 640px) {
+  header, .site-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .site-header .profile-name, .site-header .header-title {
+    font-size: 1.15rem !important;
+  }
+}
+}
+
+/* Footer specific styles */
+footer {
+  font-family: var(--font-sora);
+}
+
+footer nav a {
+  font-family: var(--font-sora);
+  font-size: 18px;
+  line-height: 100%;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 640px) {
+  footer {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+  
+  /* Footer logo size on mobile - smaller than desktop */
+  footer svg[viewBox="0 0 34.6 35"] {
+    width: 20px !important;
+    height: 20px !important;
+    max-width: 20px !important;
+    flex-shrink: 0 !important;
+  }
+  
+  /* Footer brand text on mobile */
+  footer .flex.items-center.gap-2 span,
+  footer .flex.items-center.gap-3 span {
+    font-size: 16px !important;
+    line-height: 100% !important;
+  }
+  
+  /* Footer brand container gap on mobile */
+  footer .flex.items-center.gap-2 {
+    gap: 8px !important;
+  }
+  
+  footer nav {
+    justify-content: center !important;
+    gap: 12px !important;
+    margin-top: 16px;
+  }
+  
+  footer nav a {
+    font-size: 14px !important;
+    min-height: 44px;
+    padding: 0 4px;
+  }
+  
+  /* Footer copyright text on mobile */
+  footer p {
+    font-size: 14px !important;
+    line-height: 100% !important;
+  }
+  
+  /* Footer section gaps on mobile */
+  footer .grid.grid-cols-1 {
+    gap: 16px !important;
+  }
+  
+  /* Ensure social icons SVG is scrollable on mobile if needed */
+  footer svg[viewBox="0 0 1340 60"] {
+    min-width: min(100%, 400px);
+    max-height: 50px;
+  }
+}
+
+/* Header logo size on mobile */
+@media (max-width: 640px) {
+  header svg[viewBox="0 0 34.6 35"] {
+    width: 20px !important;
+    height: 20px !important;
+    max-width: 20px !important;
+    flex-shrink: 0 !important;
+  }
+  
+  /* Header brand text on mobile */
+  header .flex.items-center.gap-2 span {
+    font-size: 16px !important;
+    line-height: 100% !important;
+  }
+  
+  /* Header brand container gap on mobile */
+  header .flex.items-center.gap-2 {
+    gap: 8px !important;
+  }
+  
+  /* Header navigation on mobile - hidden by default, shown in mobile menu */
+  header nav.hidden {
+    display: none !important;
+  }
+  
+  /* Desktop navigation - visible on larger screens */
+  header nav:not(.hidden) {
+    gap: 12px !important;
+  }
+  
+  header nav a {
+    font-size: 14px !important;
+    min-height: 44px;
+  }
+  
+  /* Header container padding on mobile */
+  header .p-3 {
+    padding: 12px !important;
+  }
+  
+  /* Mobile menu button styling */
+  header button[aria-label="Toggle menu"],
+  header button[aria-label="Open menu"] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Mobile dropdown menu - ensure it's visible */
+  header .sm\\:hidden.absolute {
+    z-index: 1000 !important;
+    position: absolute !important;
+  }
+  
+}
+
+/* Profile Upload/Download Cards */
+.image-item {
+  transition: all 0.3s ease;
+}
+
+.image-item:hover {
+  transform: translateY(-2px);
+}
+
+.image-item img {
+  transition: transform 0.3s ease;
+}
+
+/* Buttons, inputs: increase hit area on mobile */
+@media (max-width: 640px) {
+  button, .btn, .button, input[type="button"], input[type="submit"] {
+    padding-top: 0.55rem !important;
+    padding-bottom: 0.55rem !important;
+    padding-left: 0.9rem !important;
+    padding-right: 0.9rem !important;
+    border-radius: 10px !important;
+  }
+  
+  /* Profile cards mobile optimizations */
+  .image-item {
+    min-height: auto;
+  }
+  
+  /* Ensure cards stack properly on mobile */
+  [class*="grid"] .image-item {
+    width: 100%;
+  }
+}
+
+/* small utility: keep long text readable */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Ensure file lists / image cards are touch-friendly */
+.file-list-item, .upload-item {
+  gap: 8px;
+}
+@media (max-width: 640px) {
+  .file-list-item, .upload-item {
+    padding: 10px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Additional mobile improvements */
+@media (max-width: 640px) {
+  /* Better spacing for mobile */
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1.25rem;
+  }
+  
+  /* Ensure modals are full screen on mobile */
+  [role="dialog"] {
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  /* Better touch targets for links */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent text overflow */
+  h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #2B21DA;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+

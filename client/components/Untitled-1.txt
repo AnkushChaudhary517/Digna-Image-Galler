@@ -1,0 +1,1 @@
+// Removed: server/routes/demo.ts (migrated to server-dotnet/Program.cs / Demo endpoint)
