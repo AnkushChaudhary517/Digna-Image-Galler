@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { authAPI } from "@/services/api";
 
 interface LoginFormProps {
   onSubmit?: (data: any) => void;
@@ -20,7 +21,31 @@ export default function LoginForm({
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-const navigate = useNavigate();
+  const [googleError, setGoogleError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  // Redirect to backend Google OAuth endpoint
+  const handleGoogleSignIn = () => {
+    setGoogleError(null);
+    try {
+      authAPI.initiateGoogleSignIn();
+    } catch (err) {
+      console.error("Google sign-in error:", err);
+      setGoogleError("Failed to initiate Google sign-in. Please try again.");
+    }
+  };
+
+  // Redirect to backend Facebook OAuth endpoint
+  const handleFacebookSignIn = () => {
+    setGoogleError(null);
+    try {
+      authAPI.initiateFacebookSignIn();
+    } catch (err) {
+      console.error("Facebook sign-in error:", err);
+      setGoogleError("Failed to initiate Facebook sign-in. Please try again.");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await login(formData.email, formData.password);
@@ -35,9 +60,9 @@ const navigate = useNavigate();
     <div className="w-full max-w-md bg-white rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 overflow-y-auto">
       <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 md:mb-8 text-center">Sign In</h2>
 
-      {error && (
+      {(error || googleError) && (
         <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
-          {error}
+          {error || googleError}
         </div>
       )}
 
@@ -146,13 +171,15 @@ const navigate = useNavigate();
       <div className="space-y-3">
         <button
           type="button"
+          onClick={handleGoogleSignIn}
+          disabled={isLoading || externalIsLoading}
           style={{
             fontFamily: "Sora, system-ui, sans-serif",
             fontSize: "15px",
             lineHeight: "20px",
             fontWeight: 500,
           }}
-          className="w-full flex items-center justify-center gap-2 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-colors text-gray-700 font-medium"
+          className="w-full flex items-center justify-center gap-2 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-colors text-gray-700 font-medium disabled:opacity-50"
         >
           <svg 
             width="20" 
@@ -183,13 +210,15 @@ const navigate = useNavigate();
         </button>
         <button
           type="button"
+          onClick={handleFacebookSignIn}
+          disabled={isLoading || externalIsLoading}
           style={{
             fontFamily: "Sora, system-ui, sans-serif",
             fontSize: "15px",
             lineHeight: "20px",
             fontWeight: 500,
           }}
-          className="w-full flex items-center justify-center gap-2 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-colors text-gray-700 font-medium"
+          className="w-full flex items-center justify-center gap-2 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-colors text-gray-700 font-medium disabled:opacity-50"
         >
           <svg 
             width="20" 

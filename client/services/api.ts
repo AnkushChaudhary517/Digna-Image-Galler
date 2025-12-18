@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://ec2-13-126-103-12.ap-south-1.compute.amazonaws.com:5000/api/v1';
+const API_BASE_URL = 'http://localhost:5000/api/v1';
+//'http://ec2-13-126-103-12.ap-south-1.compute.amazonaws.com:5000/api/v1';
 //
 //'http://localhost:5000/api/v1';
 
@@ -87,15 +88,72 @@ export const authAPI = {
   },
 
   // Social Login
-  socialLogin: async (provider: 'google' | 'facebook' | 'apple', idToken: string, accessToken: string) => {
+  socialLogin: async (provider: 'google' | 'facebook' | 'apple', idToken: string, accessToken?: string) => {
     const response:any = await apiCall('/auth/social-login', {
       method: 'POST',
-      body: { provider, idToken, accessToken },
+      body: { provider, idToken, accessToken: accessToken || '' },
     });
     if (response.success) {
       setTokens(response.data.token, response.data.refreshToken);
     }
     return response;
+  },
+
+  // Initiate Google Sign-In - redirects to backend OAuth endpoint
+  initiateGoogleSignIn: () => {
+    // Redirect to backend Google OAuth endpoint
+    // Backend will handle OAuth flow and redirect back to callback URL
+    const callbackUrl = `${window.location.origin}/auth/callback`;
+    window.location.href = `${API_BASE_URL}/auth/google?redirect_uri=${encodeURIComponent(callbackUrl)}`;
+  },
+
+  // Initiate Facebook Sign-In - redirects to backend OAuth endpoint
+  initiateFacebookSignIn: () => {
+    // Redirect to backend Facebook OAuth endpoint
+    // Backend will handle OAuth flow and redirect back to callback URL
+    const callbackUrl = `${window.location.origin}/auth/callback`;
+    window.location.href = `${API_BASE_URL}/auth/facebook?redirect_uri=${encodeURIComponent(callbackUrl)}`;
+  },
+
+  // Exchange Google ID token for JWT tokens
+  exchangeGoogleToken: async (idToken: string) => {
+    const response: any = await apiCall('/auth/google/exchange', {
+      method: 'POST',
+      body: { idToken },
+    });
+    if (response.success) {
+      setTokens(response.data.token, response.data.refreshToken);
+    }
+    return response;
+  },
+
+  // Exchange Facebook access token for JWT tokens
+  exchangeFacebookToken: async (accessToken: string) => {
+    try {
+      const response: any = await apiCall('/auth/facebook/exchange', {
+        method: 'POST',
+        body: { accessToken },
+      });
+      
+      console.log("Facebook exchange response:", response);
+      
+      if (response.success && response.data) {
+        const jwtToken = response.data.token || response.data.access_token;
+        const refreshToken = response.data.refreshToken || response.data.refresh_token;
+        
+        if (jwtToken && refreshToken) {
+          setTokens(jwtToken, refreshToken);
+          console.log("Facebook tokens set successfully");
+        } else {
+          console.error("Missing tokens in Facebook exchange response:", response.data);
+        }
+      }
+      
+      return response;
+    } catch (error) {
+      console.error("Facebook exchange error:", error);
+      throw error;
+    }
   },
 
   // Send Verification Email

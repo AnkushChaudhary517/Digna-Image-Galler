@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { authAPI, getToken, clearTokens } from "@/services/api";
+import { authAPI, getToken, clearTokens, setTokens } from "@/services/api";
 import { useNavigate } from "react-router-dom";
 
 interface User {
@@ -17,6 +17,7 @@ interface AuthContextType {
   error: string | null;
   login: (email: string, password: string) => Promise<boolean>;
   register: (name: string, email: string, password: string) => Promise<boolean>;
+  handleOAuthCallback: (token: string, refreshToken: string, userData: User) => void;
   logout: () => Promise<void>;
   clearError: () => void;
 }
@@ -100,6 +101,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Handle OAuth callback - called when backend redirects back with tokens
+  const handleOAuthCallback = (token: string, refreshToken: string, userData: User) => {
+    console.log("handleOAuthCallback called with:", { token: token?.substring(0, 20) + "...", refreshToken: refreshToken?.substring(0, 20) + "...", userData });
+    
+    // Set tokens
+    setTokens(token, refreshToken);
+    
+    // Set user data
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+    
+    console.log("OAuth callback completed - user authenticated");
+  };
+
   const logout = async () => {
     setIsLoading(true);
     try {
@@ -126,6 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         error,
         login,
         register,
+        handleOAuthCallback,
         logout,
         clearError,
       }}
