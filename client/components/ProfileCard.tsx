@@ -7,7 +7,7 @@ interface ProfileCardProps {
   username: string;
   profileImage: string;
   bio: string;
-  followers: number;
+  uploads: number;
   isFollowing?: boolean;
   onFollowClick?: (profileId: string) => void;
 }
@@ -18,7 +18,7 @@ export default function ProfileCard({
   username,
   profileImage,
   bio,
-  followers,
+  uploads,
   isFollowing = false,
   onFollowClick,
 }: ProfileCardProps) {
@@ -35,7 +35,7 @@ export default function ProfileCard({
 
       {/* Name and Username */}
       <h3 className="text-base sm:text-lg font-semibold text-foreground text-center mb-1">{name}</h3>
-      <p className="text-xs sm:text-sm text-muted-foreground mb-2">@{username}</p>
+      <p className="text-xs sm:text-sm text-muted-foreground mb-2">{username}</p>
 
       {/* Bio */}
       {bio && (
@@ -46,7 +46,7 @@ export default function ProfileCard({
 
       {/* Followers Count */}
       <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
-        <span className="font-semibold text-foreground">{followers}</span> followers
+        <span className="font-semibold text-foreground">{uploads} Uploads</span>
       </p>
 
       {/* Follow Button */}

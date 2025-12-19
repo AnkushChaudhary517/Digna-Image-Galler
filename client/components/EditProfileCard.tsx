@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { profileAPI } from "@/services/api";
 import { useNavigate } from "react-router-dom";
+import { useError } from "@/context/ErrorContext";
 
 interface EditProfileCardProps {
   onUpdateClick?: (data: any) => void;
@@ -12,6 +13,7 @@ export default function EditProfileCard({
   onUpdateClick,
   onCancelClick,
 }: EditProfileCardProps) {
+  const { showError } = useError();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -59,10 +61,17 @@ export default function EditProfileCard({
         });
         setProfileImage(profile.profileImage || "");
       } else {
-        setError(response.error?.message || "Failed to load profile");
+        const errorMsg = response.error?.message || "Failed to load profile";
+        setError(errorMsg);
+        showError(new Error(errorMsg), "Profile Error");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load profile");
+      const errorMessage = err instanceof Error ? err.message : "Failed to load profile";
+      setError(errorMessage);
+      showError(
+        err instanceof Error ? err : new Error(errorMessage),
+        "Profile Error"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -125,10 +134,17 @@ const navigate = useNavigate();
           onUpdateClick(response.data);
         }
       } else {
-        setError(response.error?.message || "Failed to update profile");
+        const errorMsg = response.error?.message || "Failed to update profile";
+        setError(errorMsg);
+        showError(new Error(errorMsg), "Update Error");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update profile");
+      const errorMessage = err instanceof Error ? err.message : "Failed to update profile";
+      setError(errorMessage);
+      showError(
+        err instanceof Error ? err : new Error(errorMessage),
+        "Update Error"
+      );
     } finally {
       setIsSaving(false);
     }

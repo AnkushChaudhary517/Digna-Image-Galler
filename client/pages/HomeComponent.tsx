@@ -4,8 +4,10 @@ import Hero from "@/components/Hero";
 import ImageGrid from "@/components/ImageGrid";
 import Footer from "@/components/Footer";
 import { imageAPI as importedImageAPI } from "@/services/api";
+import { useError } from "@/context/ErrorContext";
 
 export default function HomeComponent() {
+  const { showError } = useError();
   const heading = "India, for Indians, Through Indian Eyes";
   const description =
     "Instant Image search or identification powered by the India's largest collection of Images";
@@ -44,6 +46,10 @@ export default function HomeComponent() {
       setSearchResults(results?.data || []);
     } catch (err) {
       console.error("Search error:", err);
+      showError(
+        err instanceof Error ? err : new Error("Failed to search images"),
+        "Search Error"
+      );
     }
   };
 

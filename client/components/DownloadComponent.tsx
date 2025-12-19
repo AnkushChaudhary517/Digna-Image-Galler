@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { X, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { userProfileAPI } from "@/services/api";
+import { useError } from "@/context/ErrorContext";
 
 type SelectedFile = {
   file: File;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export default function DownloadComponent({ open, onClose, onUploaded }: Props) {
+  const { showError } = useError();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -112,7 +114,12 @@ export default function DownloadComponent({ open, onClose, onUploaded }: Props) 
         onClose();
       }, 900);
     } catch (err) {
-      setUploadError(err instanceof Error ? err.message : "Upload failed");
+      const errorMessage = err instanceof Error ? err.message : "Upload failed";
+      setUploadError(errorMessage);
+      showError(
+        err instanceof Error ? err : new Error(errorMessage),
+        "Upload Error"
+      );
     } finally {
       setUploading(false);
     }

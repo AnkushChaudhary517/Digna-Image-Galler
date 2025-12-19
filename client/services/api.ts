@@ -1,8 +1,6 @@
-const API_BASE_URL = 'http://localhost:5000/api/v1';
-//'http://ec2-13-126-103-12.ap-south-1.compute.amazonaws.com:5000/api/v1';
+const API_BASE_URL = 'http://ec2-13-126-103-12.ap-south-1.compute.amazonaws.com:5000/api/v1';
 //
 //'http://localhost:5000/api/v1';
-
 //'http://dignaapi-env.eba-72fpqrmx.ap-south-1.elasticbeanstalk.com/api/v1';
 //'https://localhost:57309/api/v1';//process.env.VITE_API_BASE_URL || 
 
@@ -264,6 +262,25 @@ export const imageAPI = {
     return await apiCall(`/image/${imageId}/download`, {
       method: 'POST',
       body: { sizeId },
+    });
+  },
+
+  // Track Image Download - records download in user's stats
+  trackDownload: async (imageId: string, imageData?: {
+    title?: string;
+    imageUrl?: string;
+    photographer?: string;
+    sizeId?: string;
+  }) => {
+    return await apiCall(`/image/${imageId}/track-download`, {
+      method: 'POST',
+      body: {
+        title: imageData?.title,
+        imageUrl: imageData?.imageUrl,
+        photographer: imageData?.photographer,
+        sizeId: imageData?.sizeId,
+      },
+      requiresAuth: true,
     });
   },
 

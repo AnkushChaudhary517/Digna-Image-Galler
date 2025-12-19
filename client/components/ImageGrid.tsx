@@ -4,12 +4,14 @@ import { imageAPI as importedImageAPI } from "@/services/api";
 import { Heart, Share2 } from "lucide-react";
 import ShareImageModal from "./ShareImageModal";
 import { useAuth } from "@/context/AuthContext";
+import { useError } from "@/context/ErrorContext";
 import { useNavigate } from "react-router-dom";
 import { Color } from "three/src/Three.Core.js";
 import ActionButtons from "./ActionButton";
 import "./ActionButton.css";
 
 export default function ImageGrid({ images: propImages = [] }) {
+  const { showError } = useError();
   const [images, setImages] = useState<ImageDetails[]>(propImages);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,7 +72,12 @@ export default function ImageGrid({ images: propImages = [] }) {
         if (mounted) setImages(imgs as ImageDetails[]);
       } catch (err) {
         console.error("[ImageGrid] loadImages error:", err);
-        setError(err instanceof Error ? err.message : String(err));
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        setError(errorMessage);
+        showError(
+          err instanceof Error ? err : new Error(errorMessage),
+          "Image Loading Error"
+        );
       } finally {
         if (mounted) setLoading(false);
       }

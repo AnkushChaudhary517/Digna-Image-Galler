@@ -12,8 +12,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:client": "vite build",
+    "build": "vite build && node scripts/copy-error-html.js",
+    "build:client": "vite build && node scripts/copy-error-html.js",
     "build:watch": "vite build --watch",
     "start": "vite preview --port 8080",
     "test": "vitest --run",

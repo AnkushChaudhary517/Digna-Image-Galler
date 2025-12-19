@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { imageAPI as importedImageAPI } from "@/services/api";
+import { useAuth } from "@/context/AuthContext";
+import { useError } from "@/context/ErrorContext";
 
 export interface ImageDetails {
   id: string;
@@ -36,6 +38,8 @@ function formatFileSize(bytes: number): string {
 }
 
 export default function DownloadModal({ isOpen, image, onClose }: DownloadModalProps) {
+  const { user, isAuthenticated } = useAuth();
+  const { showError } = useError();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
    const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,21 +96,46 @@ export default function DownloadModal({ isOpen, image, onClose }: DownloadModalP
 
       if (!selectedImageUrl) throw new Error("Download URL not returned by API");
 
+      // Download the file
       try {
-    const response = await fetch(selectedImageUrl, { mode: "cors" });
-    const blob = await response.blob();
+        const response = await fetch(selectedImageUrl, { mode: "cors" });
+        const blob = await response.blob();
 
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = image.title ? `${image.title}.jpg` : "download.jpg";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Download failed:", error);
-  }
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = image.title ? `${image.title}.jpg` : "download.jpg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // Track the download in the database (only if user is authenticated)
+        if (isAuthenticated && user && image?.id) {
+          try {
+            await importedImageAPI.trackDownload(image.id, {
+              title: image.title,
+              imageUrl: image.imageUrl,
+              photographer: image.photographer,
+              sizeId: selectedSize || undefined,
+            });
+            console.log("Download tracked successfully");
+          } catch (trackError) {
+            // Don't fail the download if tracking fails, just log it
+            console.error("Failed to track download:", trackError);
+            // Optionally show a non-blocking error
+            showError(
+              trackError instanceof Error 
+                ? trackError 
+                : new Error("Failed to track download"),
+              "Download Tracking Error"
+            );
+          }
+        }
+      } catch (downloadError) {
+        console.error("Download failed:", downloadError);
+        throw downloadError;
+      }
 
       onClose();
     } catch (err) {

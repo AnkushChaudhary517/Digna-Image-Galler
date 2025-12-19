@@ -8,12 +8,14 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import productHeaderSvgs from "@/components/decorativeSvgs/productHeaderSvgs";
 import { useAuth } from "@/context/AuthContext";
+import { useError } from "@/context/ErrorContext";
 import { UploadIcon } from "lucide-react";
 import { userProfileAPI } from "@/services/api";
 import { useNavigate } from "react-router-dom";
 
 export default function ProfileUpdatePage() {
   const { user } = useAuth();
+  const { showError } = useError();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [formData, setFormData] = useState({
@@ -51,10 +53,14 @@ export default function ProfileUpdatePage() {
         }
       } catch (err) {
         console.error("Error fetching profile:", err);
+        showError(
+          err instanceof Error ? err : new Error("Failed to load profile"),
+          "Profile Error"
+        );
       }
     }
     fetchProfile();
-  }, []);
+  }, [showError]);
 
   
 
@@ -116,7 +122,11 @@ const navigate = useNavigate();
       }
     } catch (err) {
       console.error(err);
-      //toast.error("⚠️ Something went wrong");
+      showError(
+        err instanceof Error ? err : new Error("Failed to update profile"),
+        "Update Error"
+      );
+      toast.error("⚠️ Something went wrong");
     } finally {
       setUploading(false);
     }
