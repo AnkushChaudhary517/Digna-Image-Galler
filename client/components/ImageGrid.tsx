@@ -170,9 +170,9 @@ export default function ImageGrid({ images: propImages = [] }) {
                       className="image-item rounded-lg sm:rounded-xl overflow-hidden bg-gray-100 hover:shadow-lg focus:outline-none relative"
                       style={{ ["--col-width" as any]: colWidth, minHeight: "200px" }}
                     >
-                      <div className="absolute left-0 right-0 flex justify-between items-center p-2 sm:p-3 z-10">
+                      <div className="absolute left-0 right-0 flex justify-between items-center p-1.5 sm:p-2 md:p-3 z-10">
                         <div
-                          className="ownerBox flex items-center gap-2 sm:gap-3 cursor-pointer hover:opacity-80 transition-opacity min-w-0"
+                          className="ownerBox flex items-center gap-1 sm:gap-2 md:gap-3 cursor-pointer hover:opacity-80 transition-opacity min-w-0"
                           onClick={() => navigate(`/profile/${img.userId}`)}
                         >
                           {/* <img
@@ -180,15 +180,15 @@ export default function ImageGrid({ images: propImages = [] }) {
                             alt="Uploader"
                             className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover"
                           /> */}
-                          <span className="text-xs sm:text-sm md:text-base font-semibold truncate drop-shadow-lg" style={{ color: "white" }}>
+                          <span className="text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold truncate drop-shadow-lg" style={{ color: "white" }}>
                             {img.photographer ?? "Unknown User"}
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
                           <div className="frame flex items-center gap-1 sm:gap-2">
                             <div
-                              className="iconBox cursor-pointer min-h-[36px] sm:min-h-[40px]"
+                              className="iconBox cursor-pointer"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleOpenModal(img);
@@ -199,9 +199,9 @@ export default function ImageGrid({ images: propImages = [] }) {
                             >
                               {/* Download Icon */}
                               <svg
-                                width="20"
-                                height="20"
-                                className="sm:w-6 sm:h-6 icon"
+                                width="16"
+                                height="16"
+                                className="sm:w-5 sm:h-5 md:w-6 md:h-6 icon"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 aria-hidden="true"
@@ -209,7 +209,7 @@ export default function ImageGrid({ images: propImages = [] }) {
                                 <path
                                   d="M12 3V15M12 15L8 11M12 15L16 11M4 21H20"
                                   stroke="white"
-                                  strokeWidth="1.5"
+                                  strokeWidth="2"
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
                                 />
@@ -218,7 +218,7 @@ export default function ImageGrid({ images: propImages = [] }) {
 
                             {user && (
                               <div
-                                className="iconBox cursor-pointer min-h-[36px] sm:min-h-[40px]"
+                                className="iconBox cursor-pointer"
                                 onClick={async (e) => {
                                   e.stopPropagation();
                                   try {
@@ -244,9 +244,9 @@ export default function ImageGrid({ images: propImages = [] }) {
                               >
                                 {/* Heart Icon (uses currentColor for stroke/fill so tailwind classes work) */}
                                 <svg
-                                  width="20"
-                                  height="20"
-                                  className={`sm:w-6 sm:h-6 icon ${likedImages[img.id] || img.liked ? "text-accent" : "text-white"}`}
+                                  width="16"
+                                  height="16"
+                                  className={`sm:w-5 sm:h-5 md:w-6 md:h-6 icon ${likedImages[img.id] || img.liked ? "text-accent" : "text-white"}`}
                                   viewBox="0 0 24 24"
                                   fill={likedImages[img.id] || img.liked ? "red" : "none"}
                                   aria-hidden="true"
@@ -254,7 +254,7 @@ export default function ImageGrid({ images: propImages = [] }) {
                                   <path
                                     d="M12 21s-6.5-4.35-9-8.5C1.5 9 3.5 5 7.5 5c2.1 0 3.4 1.2 4.5 2.7C13.1 6.2 14.4 5 16.5 5c4 0 6 4 4.5 7.5-2.5 4.15-9 8.5-9 8.5z"
                                     stroke="white"
-                                    strokeWidth="1.5"
+                                    strokeWidth="2"
                                     strokeLinejoin="round"
                                   />
                                 </svg>

@@ -449,9 +449,9 @@ const navigate = useNavigate();
                 <Link to="/creators" className="header-link text-sm sm:text-base md:text-lg min-h-[44px] flex items-center">
                   Creators
                 </Link>
-                <Link to="#" className="header-link text-sm sm:text-base md:text-lg min-h-[44px] flex items-center">
+                {/* <Link to="#" className="header-link text-sm sm:text-base md:text-lg min-h-[44px] flex items-center">
                   License
-                </Link>
+                </Link> */}
                 <Link to="https://blogs.thedigna.com/" className="header-link text-sm sm:text-base md:text-lg min-h-[44px] flex items-center">
                   Blog
                 </Link>

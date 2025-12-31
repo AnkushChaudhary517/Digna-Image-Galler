@@ -339,7 +339,14 @@ export default function UploadImages({
           <div className="flex gap-2 w-full sm:w-auto">
             <Button 
               onClick={openFilePicker} 
-              style={{ backgroundColor: "#1E90FF", color: "#000", border: "none" }}
+              style={{ 
+                backgroundColor: "#2B21DA",
+                color: "#FFFFFF",
+                fontFamily: "Sora, system-ui, sans-serif",
+                fontSize: "15px",
+                lineHeight: "20px",
+                fontWeight: 500,
+              }}
               className="flex-1 sm:flex-initial min-h-[44px] px-4 sm:px-6"
             >
               <UploadIcon size={16} className="mr-2" />
@@ -452,8 +459,15 @@ export default function UploadImages({
           <Button 
             onClick={handleSubmit} 
             disabled={uploading || files.length === 0} 
-            style={{ color: "#000" }}
-            className="min-h-[44px] px-6 sm:px-8 w-full sm:w-auto"
+            style={{ 
+              backgroundColor: "#2B21DA",
+              color: "#FFFFFF",
+              fontFamily: "Sora, system-ui, sans-serif",
+              fontSize: "15px",
+              lineHeight: "20px",
+              fontWeight: 500,
+            }}
+            className="min-h-[44px] px-6 sm:px-8 w-full sm:w-auto rounded-xl hover:bg-[#2319b5] disabled:opacity-50"
           >
             {uploading ? "Uploading..." : "Upload"}
           </Button>

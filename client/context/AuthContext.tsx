@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from "react";
 import { authAPI, getToken, clearTokens, setTokens } from "@/services/api";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +45,82 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   }, []);
+
+  const logout = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await authAPI.logout();
+      setUser(null);
+      localStorage.removeItem("user");
+      clearTokens();
+      //navigate('/home')
+    } catch (err) {
+      console.error("Logout error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Session timeout: 1 hour (3600000 milliseconds)
+  useEffect(() => {
+    if (!user) return; // Only track activity when user is logged in
+
+    let timeoutId: NodeJS.Timeout;
+    let lastResetTime = Date.now();
+    const SESSION_TIMEOUT = 60 * 60 * 1000; // 1 hour in milliseconds
+    const THROTTLE_INTERVAL = 30000; // Throttle to reset at most every 30 seconds (30000ms)
+
+    const resetTimeout = () => {
+      const now = Date.now();
+      // Throttle: only reset if at least 30 seconds have passed since last reset
+      // This prevents excessive timeout resets while still being responsive
+      if (now - lastResetTime < THROTTLE_INTERVAL) {
+        return;
+      }
+      lastResetTime = now;
+
+      // Clear existing timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      // Set new timeout
+      timeoutId = setTimeout(() => {
+        console.log("Session timeout: User inactive for 1 hour, logging out...");
+        logout();
+      }, SESSION_TIMEOUT);
+    };
+
+    // Activity events to track
+    // Note: mousemove is throttled by resetTimeout, other events reset immediately if throttling allows
+    const activityEvents = [
+      'mousedown',
+      'mousemove',
+      'keypress',
+      'scroll',
+      'touchstart',
+      'click',
+      'keydown'
+    ];
+
+    // Add event listeners for user activity
+    activityEvents.forEach(event => {
+      window.addEventListener(event, resetTimeout, { passive: true });
+    });
+
+    // Initialize timeout on mount
+    resetTimeout();
+
+    // Cleanup
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      activityEvents.forEach(event => {
+        window.removeEventListener(event, resetTimeout);
+      });
+    };
+  }, [user, logout]); // Re-run when user changes
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
@@ -115,20 +191,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     console.log("OAuth callback completed - user authenticated");
   };
 
-  const logout = async () => {
-    setIsLoading(true);
-    try {
-      await authAPI.logout();
-      setUser(null);
-      localStorage.removeItem("user");
-      clearTokens();
-      //navigate('/home')
-    } catch (err) {
-      console.error("Logout error:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const clearError = () => setError(null);
 

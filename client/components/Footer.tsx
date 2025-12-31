@@ -144,11 +144,11 @@ export default function Footer() {
               />
             </a>
             {/* X/Twitter Icon - keeping for now but not linking */}
-            <rect x="68" width="60" height="60" rx="12" fill="#FFFCF3" />
+            {/* <rect x="68" width="60" height="60" rx="12" fill="#FFFCF3" />
             <path
               d="M100.234 28.1624L108.976 18H106.905L99.3137 26.8238L93.2507 18H86.2578L95.4262 31.3432L86.2578 42H88.3296L96.3459 32.6817L102.749 42H109.742L100.234 28.1624Z"
               fill="#2B21DA"
-            />
+            /> */}
             {/* Instagram Icon */}
             <a href="https://www.instagram.com/the_digna/" target="_blank" rel="noopener noreferrer" style={{ cursor: 'pointer' }}>
               <rect x="136" width="60" height="60" rx="12" fill="#FFFCF3" />
@@ -168,11 +168,11 @@ export default function Footer() {
               </g>
             </a>
             {/* Other Icon - keeping for now but not linking */}
-            <rect x="204" width="60" height="60" rx="12" fill="#FFFCF3" />
+            {/* <rect x="204" width="60" height="60" rx="12" fill="#FFFCF3" />
             <path
               d="M232.23 34.1322C231.558 37.6562 230.737 41.0352 228.305 42.8002C227.554 37.4732 229.407 33.4727 230.267 29.2258C228.8 26.7558 230.444 21.7858 233.538 23.0108C237.346 24.5168 230.241 32.1922 235.011 33.1507C239.991 34.1512 242.023 24.5103 238.936 21.3753C234.474 16.8478 225.948 21.2718 226.996 27.7538C227.251 29.3383 228.889 29.8193 227.651 32.0057C224.795 31.3728 223.943 29.1208 224.052 26.1183C224.229 21.2033 228.468 17.7623 232.721 17.2863C238.098 16.6843 243.145 19.2603 243.842 24.3193C244.627 30.0288 241.415 36.2122 235.665 35.7677C234.106 35.6467 233.452 34.8742 232.23 34.1322Z"
               fill="#2B21DA"
-            />
+            /> */}
             {/* LinkedIn Icon */}
             <a href="https://www.linkedin.com/company/thedigna/posts/?feedView=all" target="_blank" rel="noopener noreferrer" style={{ cursor: 'pointer' }}>
               <rect x="272" width="60" height="60" rx="12" fill="#FFFCF3" />
