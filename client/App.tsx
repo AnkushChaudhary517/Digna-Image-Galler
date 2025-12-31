@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route, useSearchParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import React from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Product from "./pages/Product";
@@ -44,7 +45,8 @@ function OAuthCallback() {
   const { handleOAuthCallback } = useAuth();
 
   useEffect(() => {
-    const token = searchParams.get("token") || searchParams.get("access_token"); // Backend sends token
+    // Get token and params from hash route (HashRouter)
+    const token = searchParams.get("token") || searchParams.get("access_token");
     const provider = searchParams.get("provider") || "google"; // Default to google
     const error = searchParams.get("error");
     const errorDescription = searchParams.get("error_description");
@@ -110,6 +112,35 @@ function OAuthCallback() {
   );
 }
 
+// Component to handle OAuth redirects from backend (non-hash URLs)
+function OAuthRedirectHandler({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    // Check if we're on a backend OAuth callback URL (e.g., /api/v1/auth/callback)
+    const pathname = window.location.pathname;
+    const search = window.location.search;
+    
+    if (pathname.includes('/auth/callback') || pathname.includes('/api/v1/auth/callback')) {
+      const urlParams = new URLSearchParams(search);
+      const token = urlParams.get("token") || urlParams.get("access_token");
+      const provider = urlParams.get("provider") || "google";
+      const error = urlParams.get("error");
+      const errorDescription = urlParams.get("error_description");
+      
+      // Build hash route with params
+      const hashParams = new URLSearchParams();
+      if (token) hashParams.set("token", token);
+      if (provider) hashParams.set("provider", provider);
+      if (error) hashParams.set("error", error);
+      if (errorDescription) hashParams.set("error_description", errorDescription);
+      
+      const hashRoute = `/#/auth/callback${hashParams.toString() ? '?' + hashParams.toString() : ''}`;
+      window.location.replace(hashRoute);
+    }
+  }, []);
+  
+  return <>{children}</>;
+}
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -118,24 +149,26 @@ const App = () => (
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <HashRouter>
-              <ErrorBoundary>
-                <Routes>
-                  <Route path="/" element={<HomeComponent />} />
-                  <Route path="/product" element={<Product />} />
-                  <Route path="/creators" element={<Creators />} />
-                  <Route path="/banner" element={<BannerPage />} /> 
-                  <Route path="/home" element={<HomeComponent />} />
-                  <Route path="/auth/callback" element={<OAuthCallback />} />
-                  <Route path="/profile" element={<UserProfile />} />
-                  <Route path="/profile/:profileId" element={<UserProfile />} /> 
-                  <Route path="/upload" element={<UploadImage />} />
-                  <Route path="/profile/update" element={<ProfileUpdatePage />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </ErrorBoundary>
-            </HashRouter>
+            <OAuthRedirectHandler>
+              <HashRouter>
+                <ErrorBoundary>
+                  <Routes>
+                    <Route path="/" element={<HomeComponent />} />
+                    <Route path="/product" element={<Product />} />
+                    <Route path="/creators" element={<Creators />} />
+                    <Route path="/banner" element={<BannerPage />} /> 
+                    <Route path="/home" element={<HomeComponent />} />
+                    <Route path="/auth/callback" element={<OAuthCallback />} />
+                    <Route path="/profile" element={<UserProfile />} />
+                    <Route path="/profile/:profileId" element={<UserProfile />} /> 
+                    <Route path="/upload" element={<UploadImage />} />
+                    <Route path="/profile/update" element={<ProfileUpdatePage />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </ErrorBoundary>
+              </HashRouter>
+            </OAuthRedirectHandler>
           </TooltipProvider>
         </AuthProvider>
       </ErrorProvider>

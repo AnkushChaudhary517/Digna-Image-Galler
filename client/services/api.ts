@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://ec2-13-126-103-12.ap-south-1.compute.amazonaws.com:5000/api/v1';
+const API_BASE_URL = 'https://api.thedigna.com/api/v1';
 //
 //'http://localhost:5000/api/v1';
 //'http://dignaapi-env.eba-72fpqrmx.ap-south-1.elasticbeanstalk.com/api/v1';
@@ -101,7 +101,8 @@ export const authAPI = {
   initiateGoogleSignIn: () => {
     // Redirect to backend Google OAuth endpoint
     // Backend will handle OAuth flow and redirect back to callback URL
-    const callbackUrl = `${window.location.origin}/auth/callback`;
+    // Use hash route for HashRouter compatibility
+    const callbackUrl = `${window.location.origin}/#/auth/callback`;
     window.location.href = `${API_BASE_URL}/auth/google?redirect_uri=${encodeURIComponent(callbackUrl)}`;
   },
 
@@ -109,7 +110,8 @@ export const authAPI = {
   initiateFacebookSignIn: () => {
     // Redirect to backend Facebook OAuth endpoint
     // Backend will handle OAuth flow and redirect back to callback URL
-    const callbackUrl = `${window.location.origin}/auth/callback`;
+    // Use hash route for HashRouter compatibility
+    const callbackUrl = `${window.location.origin}/#/auth/callback`;
     window.location.href = `${API_BASE_URL}/auth/facebook?redirect_uri=${encodeURIComponent(callbackUrl)}`;
   },
 
